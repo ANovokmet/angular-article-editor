@@ -19,7 +19,7 @@ interface ParagraphConfig {
 export class ParagraphComponent implements OnInit, BaseComponent {
 
 	public control = new FormControl();
-	content = 'penis';
+	content = 'Insert text';
 	type = 'paragraph';
 	selected: boolean;
 	selected$ = this.articleService.selectedItem$.pipe(map(i => i === this));
@@ -39,7 +39,7 @@ export class ParagraphComponent implements OnInit, BaseComponent {
 	}
 
 	ngOnInit() {
-		this.control.setValue('penis 2', { emitEvent: false });
+		this.control.setValue('Insert text', { emitEvent: false });
 		this.onChange = this.control.valueChanges;
 		this.control.valueChanges.subscribe((value: string) => {
 			this.configChanged.emit(this.getData());
