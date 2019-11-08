@@ -1,0 +1,3 @@
+<div [ngClass]="type" class="item" contenteditable="true" name="paragraph" [formControl]="control"
+	(focus)="onFocus()" (blur)="onBlur()" (click)="onFocus(); $event.stopPropagation()">
+</div>

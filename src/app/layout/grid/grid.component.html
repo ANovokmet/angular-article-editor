@@ -1,0 +1,4 @@
+<form [formGroup]="formArray">
+	<app-column *ngFor="let control of formArray.controls; let i = index" class="column" [formGroupName]="i"
+		[control]="control" (configChanged)="componentChanged()"></app-column>
+</form>

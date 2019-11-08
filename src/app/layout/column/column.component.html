@@ -1,0 +1,6 @@
+<div class="column item" [ngClass]="{'selected': (selected$ | async)}" (click)="onFocus(); $event.stopPropagation()" [formGroup]="formArray">
+	<div *ngIf="empty" class="placeholder">
+		
+	</div>
+	<template #dynamic></template>
+</div>
