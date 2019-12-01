@@ -3,10 +3,10 @@ import { map } from 'rxjs/operators';
 import { FormArray, FormBuilder, AbstractControl, FormGroup, Form } from '@angular/forms';
 import { Observable, config } from 'rxjs';
 
-import { ComponentFactoryService } from 'src/app/component-factory.service';
-import { ArticleService } from 'src/app/article.service';
-import { ParagraphComponent } from 'src/app/paragraph/paragraph.component';
 import { BaseLayoutComponent } from '../base-layout.component';
+import { ComponentFactoryService } from '../component-factory.service';
+import { AngularArticleEditorService } from '../angular-article-editor.service';
+import { ParagraphComponent } from '../paragraph/paragraph.component';
 
 export interface ColumnConfig {
 	key: string;
@@ -14,9 +14,9 @@ export interface ColumnConfig {
 }
 
 @Component({
-	selector: 'app-column',
+	selector: 'aae-column',
 	templateUrl: './column.component.html',
-	styleUrls: ['./column.component.scss']
+	styleUrls: ['./column.component.scss', '../../styles/shared.scss']
 })
 export class ColumnComponent extends BaseLayoutComponent implements OnInit {
 
@@ -27,7 +27,7 @@ export class ColumnComponent extends BaseLayoutComponent implements OnInit {
 
 	constructor(
 		factory: ComponentFactoryService,
-		private articleService: ArticleService,
+		private articleService: AngularArticleEditorService,
 		public elementRef: ElementRef,
 		private fb: FormBuilder
 	) {

@@ -1,0 +1,23 @@
+.btn {
+    $btn-color: white;
+    $shadow-color: #b6b6b6;
+
+    display: flex;
+    padding: 5px;
+    align-items: center;
+    background: $btn-color;
+    cursor: pointer;
+    // box-shadow: 0px 0px 2px 0 $shadow-color;
+    border: 1px solid transparent;
+    transition: background 0.15s ease-out;
+
+    &:hover {
+        background: darken($btn-color, 5%);
+    }
+
+    &:active {
+        background: darken($btn-color, 10%);
+    }
+
+    outline: none;
+}

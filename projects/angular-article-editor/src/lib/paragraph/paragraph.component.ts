@@ -1,10 +1,10 @@
 import { Component, OnInit, ElementRef, EventEmitter, Output } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
-
-import { ArticleService } from '../article.service';
-import { BaseComponent } from '../base-component';
 import { Observable } from 'rxjs';
+
+import { BaseComponent } from '../base-component.interface';
+import { AngularArticleEditorService } from '../angular-article-editor.service';
 
 interface ParagraphConfig {
 	key: string;
@@ -12,9 +12,9 @@ interface ParagraphConfig {
 }
 
 @Component({
-	selector: 'app-paragraph',
-	templateUrl: './paragraph.component.html',
-	styleUrls: ['./paragraph.component.scss']
+  selector: 'aae-paragraph',
+  templateUrl: './paragraph.component.html',
+  styleUrls: ['./paragraph.component.scss', '../../styles/shared.scss']
 })
 export class ParagraphComponent implements OnInit, BaseComponent {
 
@@ -28,7 +28,7 @@ export class ParagraphComponent implements OnInit, BaseComponent {
 
 	@Output() configChanged = new EventEmitter<ParagraphConfig>();
 
-	constructor(private articleService: ArticleService, public elementRef: ElementRef) {
+	constructor(private articleService: AngularArticleEditorService, public elementRef: ElementRef) {
 		this.control.valueChanges.subscribe(v => {
 			console.log(v);
 		});

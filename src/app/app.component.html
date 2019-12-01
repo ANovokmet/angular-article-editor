@@ -1,13 +1,3 @@
 <div class="container">
-	<div class="header">
-		<button class="btn" (click)="addParagraph()"><i class="tiny material-icons">notes</i></button>
-		<button class="btn" (click)="addTitle()"><i class="tiny material-icons">title</i></button>
-		<button class="btn" (click)="addLayout()"><i class="tiny material-icons">view_column</i></button>
-		<!-- <button class="btn" (click)="addLayout()"><i class="tiny material-icons">format_bold</i></button>
-		<button class="btn" (click)="addLayout()"><i class="tiny material-icons">format_italic</i></button> -->
-	</div>
-	<form class="article" #articleForm="ngForm">
-		<template #dynamic></template>
-	</form>
-	<app-tool-menu></app-tool-menu>
+	<aae-angular-article-editor></aae-angular-article-editor>
 </div>

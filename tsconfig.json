@@ -16,6 +16,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "angular-article-editor": [
+        "projects/angular-article-editor/src/public_api"//"dist/angular-article-editor"
+      ],
+      "angular-article-editor/*": [
+        "dist/angular-article-editor/*"
+      ]
+    }
   }
 }

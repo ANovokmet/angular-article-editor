@@ -1,0 +1,15 @@
+:host {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 1em;
+}
+
+.table-body {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.table-column {
+	flex: 0 0 calc(50% - 0.5em);
+}

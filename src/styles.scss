@@ -35,36 +35,3 @@ body {
 .large {
     font-size: 6rem
 }
-
-.btn {
-    $btn-color: white;
-    $shadow-color: #b6b6b6;
-
-    // border-radius: 4px;
-    display: flex;
-    width: auto;
-    align-items: center;
-    background: $btn-color;
-    cursor: pointer;
-    // box-shadow: 0px 0px 2px 0 $shadow-color;
-    border: 1px solid transparent;
-
-    &:hover {
-        background: darken($btn-color, 5%);
-    }
-
-    &:active {
-        background: darken($btn-color, 10%);
-    }
-
-    outline: none;
-}
-
-.item {
-	position: relative;
-}
-
-.item:focus, .item.selected {
-    outline: 2px solid #80a3ff;
-    outline-style: dashed;
-}

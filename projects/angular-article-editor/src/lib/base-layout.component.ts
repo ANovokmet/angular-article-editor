@@ -2,8 +2,8 @@ import { AbstractControl, FormBuilder, FormArray, FormControl } from '@angular/f
 import { ElementRef, ViewContainerRef, Type, Input, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ComponentFactoryService } from '../component-factory.service';
-import { BaseComponent } from '../base-component';
+import { ComponentFactoryService } from './component-factory.service';
+import { BaseComponent } from './base-component.interface';
 
 export class BaseLayoutComponent implements BaseComponent {
 

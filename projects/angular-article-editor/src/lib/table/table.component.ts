@@ -2,22 +2,21 @@ import { Component, OnInit, HostBinding, ElementRef, HostListener } from '@angul
 import { map } from 'rxjs/operators';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 
-import { ArticleService } from 'src/app/article.service';
-import { ComponentFactoryService } from 'src/app/component-factory.service';
 import { BaseLayoutComponent } from '../base-layout.component';
+import { AngularArticleEditorService } from '../angular-article-editor.service';
+import { ComponentFactoryService } from '../component-factory.service';
 
 @Component({
-  selector: 'app-grid',
-  templateUrl: './grid.component.html',
-  styleUrls: ['./grid.component.scss']
+  selector: 'aae-table',
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.scss', '../../styles/shared.scss']
 })
-export class GridComponent extends BaseLayoutComponent implements OnInit {
+export class TableComponent extends BaseLayoutComponent implements OnInit {
 	columns = [1, 2];
-	@HostBinding('class.selected') selected = false;
-	@HostBinding('class.item') isItem = true;
+	selected = false;
 
 	constructor(
-		private articleService: ArticleService,
+		private articleService: AngularArticleEditorService,
 		public elementRef: ElementRef,
 		factory: ComponentFactoryService,
 		fb: FormBuilder

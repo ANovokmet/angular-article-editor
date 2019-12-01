@@ -1,0 +1,4 @@
+<form [formGroup]="formArray" class="table-body item" [ngClass]="{'selected': selected}">
+	<aae-column *ngFor="let control of formArray.controls; let i = index" class="table-column" [formGroupName]="i"
+		[control]="control" (configChanged)="componentChanged()"></aae-column>
+</form>

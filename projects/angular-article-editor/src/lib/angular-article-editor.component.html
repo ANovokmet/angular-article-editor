@@ -1,0 +1,17 @@
+<div class="article-container">
+	<div class="article-header">
+		<button class="btn" (click)="addParagraph()" title="Add paragraph">
+			<i class="tiny material-icons">notes</i>
+		</button>
+		<button class="btn" (click)="addTitle()" title="Add title">
+			<i class="tiny material-icons">title</i>
+		</button>
+		<button class="btn" (click)="addLayout()" title="Add table">
+			<i class="tiny material-icons">view_column</i>
+		</button>
+	</div>
+	<form class="article-body" [formGroup]="formGroup">
+		<template #dynamic></template>
+	</form>
+	<aae-tool-menu></aae-tool-menu>
+</div>

@@ -1,9 +1,9 @@
 import { Injectable, ComponentFactoryResolver, ViewContainerRef, Type } from '@angular/core';
+
 import { ParagraphComponent } from './paragraph/paragraph.component';
-import { GridComponent } from './layout/grid/grid.component';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class ComponentFactoryService {
 

@@ -1,30 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ContenteditableModule } from '@ng-stack/contenteditable';
 
 import { AppComponent } from './app.component';
-import { ParagraphComponent } from './paragraph/paragraph.component';
-import { ColumnComponent } from './layout/column/column.component';
-import { ToolMenuComponent } from './tool-menu/tool-menu.component';
-import { GridComponent } from './layout/grid/grid.component';
+import { AngularArticleEditorModule } from 'angular-article-editor';
 
 @NgModule({
     declarations: [
-        AppComponent,
-        ParagraphComponent,
-        ColumnComponent,
-        ToolMenuComponent,
-        GridComponent
+        AppComponent
     ],
     imports: [
-        ContenteditableModule,
-		FormsModule,
-		ReactiveFormsModule,
-        BrowserModule
+		BrowserModule,
+		AngularArticleEditorModule
     ],
     providers: [],
     bootstrap: [AppComponent],
-    entryComponents: [ParagraphComponent, GridComponent]
+    entryComponents: []
 })
 export class AppModule { }

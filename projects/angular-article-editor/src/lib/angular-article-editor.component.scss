@@ -1,0 +1,10 @@
+.article-container {
+	position: relative;
+}
+
+.article-header {
+	display: flex;
+	flex-direction: row;
+	box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
+	margin-bottom: 1em;
+}
