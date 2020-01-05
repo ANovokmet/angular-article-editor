@@ -1,5 +1,5 @@
 import { ElementRef, ViewContainerRef, EventEmitter } from '@angular/core';
-import { FormControl, AbstractControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 
 export interface BaseComponent {
 	elementRef: ElementRef<HTMLElement>;

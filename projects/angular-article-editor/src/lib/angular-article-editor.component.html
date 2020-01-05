@@ -10,8 +10,8 @@
 			<i class="tiny material-icons">view_column</i>
 		</button>
 	</div>
-	<form class="article-body" [formGroup]="control">
-		<template #dynamic></template>
-	</form>
-	<aae-tool-menu></aae-tool-menu>
+	<div class="article-body">
+		<aae-wrapper *ngFor="let item of data" [data]="item"></aae-wrapper>
+	</div>
+	<aae-tool-menu [article]="data"></aae-tool-menu>
 </div>

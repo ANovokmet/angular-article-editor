@@ -1,12 +1,9 @@
-import { Component, OnInit, ViewContainerRef, ElementRef, HostBinding, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostBinding, OnDestroy, Input } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { AngularArticleEditorService } from '../angular-article-editor.service';
-import { ColumnComponent } from '../column/column.component';
-import { ComponentFactoryService } from '../component-factory.service';
-import { Subscription } from 'rxjs';
-import { FormControl, FormArray } from '@angular/forms';
-import { BaseComponent, LayoutComponent } from '../base-component.interface';
-import { ParagraphComponent } from '../paragraph/paragraph.component';
+import { BaseComponent } from '../interfaces/base-component.interface';
+import { ArticleComponentConfig } from '../interfaces/config';
 
 const TOOL_MENU_TOP_OFFSET = -15;
 const TOOL_MENU_LEFT_OFFSET = 0;
@@ -18,6 +15,8 @@ const TOOL_MENU_LEFT_OFFSET = 0;
 })
 export class ToolMenuComponent implements OnInit, OnDestroy {
 
+	@Input() article: Array<ArticleComponentConfig>;
+
 	@HostBinding('style.left.px') left = 10;
 	@HostBinding('style.top.px') top = 10;
 	show = false;
@@ -25,9 +24,7 @@ export class ToolMenuComponent implements OnInit, OnDestroy {
 	selectedComponent: BaseComponent;
 
 	constructor(
-		private factory: ComponentFactoryService,
-		private articleService: AngularArticleEditorService,
-		private elementRef: ElementRef<HTMLElement>
+		articleService: AngularArticleEditorService
 	) {
 		this.positionSub = articleService.selectedItem$.subscribe(component => {
 			if (component && component.elementRef && component.elementRef.nativeElement) {
@@ -51,19 +48,58 @@ export class ToolMenuComponent implements OnInit, OnDestroy {
 	}
 
 	addParagraph() {
-		const target = this.selectedComponent.viewContainerRef ? this.selectedComponent : this.selectedComponent.parent;
-		this.factory.create({
+		const config = {
 			key: 'paragraph',
 			data: 'Insert text'
-		}, target);
+		};
+		const targetConfig = (this.selectedComponent as any).data;
+		this.insertOrInsertBehind(config, targetConfig);
+	}
+
+	findParent(target: ArticleComponentConfig, article: Array<ArticleComponentConfig>) {
+		for (let i = 0; i < article.length; i++) {
+			const item = article[i];
+			if (item === target) {
+				return {
+					parent: article,
+					index: i
+				};
+			}
+
+			if (Array.isArray(item.data)) {
+				const found = this.findParent(target, item.data);
+				if (found) {
+					return found;
+				}
+			}
+		}
+	}
+
+	insertOrInsertBehind(config, targetConfig) {
+		if (Array.isArray(targetConfig)) {
+			targetConfig.push(config);
+		} else {
+			const result = this.findParent(targetConfig, this.article);
+			if (result) {
+				result.parent.splice(result.index + 1, 0, config);
+			}
+		}
 	}
 
 	addTitle() {
-		const target = this.selectedComponent.viewContainerRef ? this.selectedComponent : this.selectedComponent.parent;
-		this.factory.create({
+		const config = {
 			key: 'title',
 			data: 'Insert text'
-		}, target);
+		};
+		const targetConfig = (this.selectedComponent as any).data;
+		this.insertOrInsertBehind(config, targetConfig);
 	}
 
+	remove() {
+		const targetConfig = (this.selectedComponent as any).data;
+		const result = this.findParent(targetConfig, this.article);
+		if (result) {
+			result.parent.splice(result.index, 1);
+		}
+	}
 }

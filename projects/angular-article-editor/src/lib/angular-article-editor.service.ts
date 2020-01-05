@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BaseComponent } from './base-component.interface';
+import { BaseComponent } from './interfaces/base-component.interface';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -7,8 +7,8 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AngularArticleEditorService {
 
-  public selectedItem: BaseComponent = null;
-  public selectedItem$ = new BehaviorSubject<BaseComponent>(null);
+  public selectedItem: any = null;
+  public selectedItem$ = new BehaviorSubject<any>(null);
 
   constructor() {
   }

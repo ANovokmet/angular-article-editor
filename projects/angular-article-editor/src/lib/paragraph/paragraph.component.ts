@@ -3,12 +3,12 @@ import { map } from 'rxjs/operators';
 import { FormControl, AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 
-import { BaseComponent, LayoutComponent } from '../base-component.interface';
+import { BaseComponent, LayoutComponent } from '../interfaces/base-component.interface';
 import { AngularArticleEditorService } from '../angular-article-editor.service';
 
 interface ParagraphConfig {
 	key: string;
-	content: string;
+	data: string;
 }
 
 @Component({
@@ -21,6 +21,7 @@ export class ParagraphComponent implements OnInit, BaseComponent {
 	@Input() parent: LayoutComponent;
 	@Input() control: AbstractControl;
 	@Output() configChanged = new EventEmitter<ParagraphConfig>();
+	@Input() data: ParagraphConfig;
 
 	content = 'Insert text';
 	type = 'paragraph';
@@ -40,14 +41,6 @@ export class ParagraphComponent implements OnInit, BaseComponent {
 	}
 
 	ngOnInit() {
-		this.control.valueChanges.subscribe(v => {
-			console.log(v);
-		});
-		// this.control.setValue('Insert text', { emitEvent: false });
-		this.onChange = this.control.valueChanges;
-		this.control.valueChanges.subscribe((value: string) => {
-			this.configChanged.emit(this.getData());
-		});
 	}
 
 	getData() {

@@ -1,10 +1,6 @@
-import { Component, OnInit, ViewContainerRef, ViewChild, EventEmitter, Input } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { Component, OnInit, EventEmitter, Input } from '@angular/core';
 
-import { ComponentFactoryService } from './component-factory.service';
-import { TableComponent } from './table/table.component';
-import { BaseComponent, LayoutComponent } from './base-component.interface';
-import { ParagraphComponent } from './paragraph/paragraph.component';
+import { ArticleConfig } from './interfaces/config';
 
 @Component({
 	selector: 'aae-angular-article-editor',
@@ -13,86 +9,43 @@ import { ParagraphComponent } from './paragraph/paragraph.component';
 })
 export class AngularArticleEditorComponent implements OnInit {
 
-	@Input() data: any;
-
-	@ViewChild('dynamic', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
-	control: FormArray;
-	onChange = new EventEmitter<any>();
+	@Input() data: ArticleConfig;
+	change = new EventEmitter<any>();
 
 	constructor(
-		private factory: ComponentFactoryService,
-		private fb: FormBuilder
 	) {
-		this.control = fb.array([]);
-		this.control.valueChanges.subscribe(data => {
-			console.log(data);
-			this.onChange.next(data);
-		});
 	}
 
 	ngOnInit() {
-		this.factory.createAll([
-			{
-				key: 'title',
-				data: 'This is a title'
-			},
-			{
-				key: 'paragraph',
-				data: `A long paragraph. A long paragraph. A long paragraph. A long paragraph. A
-				long paragraph. A long paragraph. A long paragraph. A long paragraph.`
-			},
-			{
-				key: 'table',
-				data: [
-					{
-						key: 'column',
-						data: [
-							{
-								key: 'title',
-								data: 'Sub title'
-							}
-						]
-					},
-					{
-						key: 'column',
-						data: [
-							{
-								key: 'title',
-								data: 'Sub title'
-							}
-						]
-					}
-				]
-			}
-		], this);
 	}
 
 	addParagraph() {
-		// this.items.push({});
-		const component = this.factory.add(ParagraphComponent, this.viewContainerRef, {
-			control: new FormControl(),
-			parent: this
+		this.data.push({
+			key: 'paragraph',
+			data: 'Enter text...'
 		});
-		this.control.push(component.instance.control);
 	}
 
 	addTitle() {
-		const component = this.factory.add(ParagraphComponent, this.viewContainerRef, {
-			type: 'title',
-			control: this.fb.control(''),
-			parent: this
+		this.data.push({
+			key: 'title',
+			data: 'Enter text...'
 		});
-		this.control.push(component.instance.control);
 	}
 
 	addLayout() {
 		console.log('Add Layout');
-		const component = this.factory.add(TableComponent, this.viewContainerRef, {
-			control: this.fb.array([
-				this.fb.array([]), this.fb.array([])
-			]),
-			parent: this
+		this.data.push({
+			key: 'table',
+			data: [
+				{
+					key: 'column',
+					data: []
+				}, {
+					key: 'column',
+					data: []
+				}
+			]
 		});
-		this.control.push(component.instance.control);
 	}
 }

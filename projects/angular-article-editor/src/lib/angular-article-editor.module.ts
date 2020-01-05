@@ -8,6 +8,9 @@ import { TableComponent } from './table/table.component';
 import { ColumnComponent } from './column/column.component';
 import { ParagraphComponent } from './paragraph/paragraph.component';
 import { ToolMenuComponent } from './tool-menu/tool-menu.component';
+import { ComponentOutletDirective } from './directives/component-outlet.directive';
+import { WrapperComponent } from './wrapper/wrapper.component';
+import { ImageComponent } from './image/image.component';
 
 @NgModule({
 	declarations: [
@@ -15,7 +18,10 @@ import { ToolMenuComponent } from './tool-menu/tool-menu.component';
 		TableComponent,
 		ColumnComponent,
 		ParagraphComponent,
-		ToolMenuComponent
+		ToolMenuComponent,
+		ComponentOutletDirective,
+		WrapperComponent,
+		ImageComponent
 	],
 	imports: [
 		BrowserModule,
@@ -27,7 +33,8 @@ import { ToolMenuComponent } from './tool-menu/tool-menu.component';
 	entryComponents: [
 		ParagraphComponent,
 		TableComponent,
-		ColumnComponent
+		ColumnComponent,
+		ImageComponent
 	]
 })
 export class AngularArticleEditorModule { }
