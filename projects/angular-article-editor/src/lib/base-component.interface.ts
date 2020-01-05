@@ -6,5 +6,11 @@ export interface BaseComponent {
 	viewContainerRef?: ViewContainerRef;
 	control: AbstractControl;
 	configChanged: EventEmitter<any>;
+	parent: LayoutComponent;
 	getData?();
+}
+
+export interface LayoutComponent {
+	viewContainerRef?: ViewContainerRef;
+	control: AbstractControl;
 }

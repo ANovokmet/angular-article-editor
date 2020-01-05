@@ -4,6 +4,9 @@ import { AngularArticleEditorService } from '../angular-article-editor.service';
 import { ColumnComponent } from '../column/column.component';
 import { ComponentFactoryService } from '../component-factory.service';
 import { Subscription } from 'rxjs';
+import { FormControl, FormArray } from '@angular/forms';
+import { BaseComponent, LayoutComponent } from '../base-component.interface';
+import { ParagraphComponent } from '../paragraph/paragraph.component';
 
 const TOOL_MENU_TOP_OFFSET = -15;
 const TOOL_MENU_LEFT_OFFSET = 0;
@@ -19,6 +22,7 @@ export class ToolMenuComponent implements OnInit, OnDestroy {
 	@HostBinding('style.top.px') top = 10;
 	show = false;
 	positionSub: Subscription;
+	selectedComponent: BaseComponent;
 
 	constructor(
 		private factory: ComponentFactoryService,
@@ -33,7 +37,8 @@ export class ToolMenuComponent implements OnInit, OnDestroy {
 				this.left = Math.floor(left) + TOOL_MENU_LEFT_OFFSET;
 				this.top = Math.floor(top) + TOOL_MENU_TOP_OFFSET;
 			}
-
+			this.selectedComponent = component;
+			console.log('selected', component);
 			this.show = !!component;
 		});
 	}
@@ -46,17 +51,19 @@ export class ToolMenuComponent implements OnInit, OnDestroy {
 	}
 
 	addParagraph() {
-		const component = this.articleService.selectedItem;
-		if (component) {
-			(component as ColumnComponent).addParagraph();
-		}
+		const target = this.selectedComponent.viewContainerRef ? this.selectedComponent : this.selectedComponent.parent;
+		this.factory.create({
+			key: 'paragraph',
+			data: 'Insert text'
+		}, target);
 	}
 
 	addTitle() {
-		const component = this.articleService.selectedItem;
-		if (component) {
-			(component as ColumnComponent).addTitle();
-		}
+		const target = this.selectedComponent.viewContainerRef ? this.selectedComponent : this.selectedComponent.parent;
+		this.factory.create({
+			key: 'title',
+			data: 'Insert text'
+		}, target);
 	}
 
 }

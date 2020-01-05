@@ -2,36 +2,25 @@ import { AbstractControl, FormBuilder, FormArray, FormControl } from '@angular/f
 import { ElementRef, ViewContainerRef, Type, Input, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ComponentFactoryService } from './component-factory.service';
-import { BaseComponent } from './base-component.interface';
+import { BaseComponent, LayoutComponent } from './base-component.interface';
 
 export class BaseLayoutComponent implements BaseComponent {
 
+	/** Layout this component is contained within */
+	@Input() parent: LayoutComponent;
 	@Input() control: AbstractControl;
 	@Output() configChanged = new EventEmitter<any>();
 
 	elementRef: ElementRef<HTMLElement>;
 	viewContainerRef?: ViewContainerRef;
-	factory: ComponentFactoryService;
 	onChange: Observable<any>;
 	components: Array<BaseComponent> = [];
 
-	constructor(factory: ComponentFactoryService, fb: FormBuilder) {
-		this.factory = factory;
+	constructor(fb: FormBuilder) {
 	}
 
 	get formArray() {
 		return this.control as FormArray;
-	}
-
-	add<T extends BaseComponent>(componentType: Type<T>, props?: Partial<T>) {
-		const component = this.factory.add(componentType, this.viewContainerRef, props);
-		this.components.push(component.instance);
-		this.formArray.push(component.instance.control);
-		component.instance.configChanged.subscribe(data => {
-			console.log('config changed', data);
-			this.componentChanged(component.instance, data);
-		});
 	}
 
 	getData() {

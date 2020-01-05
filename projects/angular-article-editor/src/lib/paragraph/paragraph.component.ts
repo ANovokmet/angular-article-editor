@@ -1,9 +1,9 @@
-import { Component, OnInit, ElementRef, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, ElementRef, EventEmitter, Output, Input, Inject } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
+import { FormControl, AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 
-import { BaseComponent } from '../base-component.interface';
+import { BaseComponent, LayoutComponent } from '../base-component.interface';
 import { AngularArticleEditorService } from '../angular-article-editor.service';
 
 interface ParagraphConfig {
@@ -18,7 +18,10 @@ interface ParagraphConfig {
 })
 export class ParagraphComponent implements OnInit, BaseComponent {
 
-	public control = new FormControl();
+	@Input() parent: LayoutComponent;
+	@Input() control: AbstractControl;
+	@Output() configChanged = new EventEmitter<ParagraphConfig>();
+
 	content = 'Insert text';
 	type = 'paragraph';
 	selected: boolean;
@@ -26,12 +29,10 @@ export class ParagraphComponent implements OnInit, BaseComponent {
 
 	onChange: Observable<string>;
 
-	@Output() configChanged = new EventEmitter<ParagraphConfig>();
-
-	constructor(private articleService: AngularArticleEditorService, public elementRef: ElementRef) {
-		this.control.valueChanges.subscribe(v => {
-			console.log(v);
-		});
+	constructor(
+		private articleService: AngularArticleEditorService,
+		public elementRef: ElementRef
+	) {
 	}
 
 	set value(_value: string) {
@@ -39,7 +40,10 @@ export class ParagraphComponent implements OnInit, BaseComponent {
 	}
 
 	ngOnInit() {
-		this.control.setValue('Insert text', { emitEvent: false });
+		this.control.valueChanges.subscribe(v => {
+			console.log(v);
+		});
+		// this.control.setValue('Insert text', { emitEvent: false });
 		this.onChange = this.control.valueChanges;
 		this.control.valueChanges.subscribe((value: string) => {
 			this.configChanged.emit(this.getData());
@@ -59,7 +63,7 @@ export class ParagraphComponent implements OnInit, BaseComponent {
 	}
 
 	onBlur() {
-		this.articleService.deselect(this);
+		// this.articleService.deselect(this);
 		this.selected = false;
 	}
 }

@@ -26,7 +26,8 @@ import { ToolMenuComponent } from './tool-menu/tool-menu.component';
 	exports: [AngularArticleEditorComponent],
 	entryComponents: [
 		ParagraphComponent,
-		TableComponent
+		TableComponent,
+		ColumnComponent
 	]
 })
 export class AngularArticleEditorModule { }
