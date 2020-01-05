@@ -47,7 +47,7 @@ export class AppComponent {
 		},
 		{
 			key: 'image',
-			src: '/assets/zagreb_night.jpg',
+			src: 'assets/zagreb_night.jpg',
 			alt: 'Zagreb at night'
 		},
 		{
