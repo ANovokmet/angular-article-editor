@@ -1,4 +1,6 @@
-
-<ng-container aaeComponentOutlet [ngComponentOutlet]="componentType" [data]="data" (componentCreated)="onComponentCreated($event)">
-
+<ng-container aaeComponentOutlet [ngComponentOutlet]="componentType" [data]="data"
+    (componentCreated)="onComponentCreated($event)">
 </ng-container>
+<div class="drag-handle" [hidden]="!selected">
+    <ng-container *ngTemplateOutlet="dragHandleTemplate"></ng-container>
+</div>

@@ -14,13 +14,15 @@ export interface ComponentSelectedData {
 })
 export class AngularArticleEditorService {
 
+	constructor() {
+	}
+
 	public selectedItem: any = null;
 	public selectedItem$ = new BehaviorSubject<any>(null);
 	public selected$ = new BehaviorSubject<ComponentSelectedData>(null);
 	selectedData: ComponentSelectedData;
 
-	constructor() {
-	}
+	public cdkLists = [];
 
 	public select(item) {
 		console.log('selected', item);
@@ -46,5 +48,9 @@ export class AngularArticleEditorService {
 
 	public getSelectedData() {
 		return this.selectedData;
+	}
+
+	public addCdkList(list) {
+		this.cdkLists.push(list);
 	}
 }

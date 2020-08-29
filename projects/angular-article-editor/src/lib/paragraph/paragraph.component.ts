@@ -1,9 +1,5 @@
-import { Component, OnInit, ElementRef, EventEmitter, Output, Input, Inject } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { FormControl, AbstractControl } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
-
-import { LayoutComponent } from '../interfaces/base-component.interface';
 
 interface ParagraphConfig {
 	key: string;
@@ -16,10 +12,6 @@ interface ParagraphConfig {
   styleUrls: ['./paragraph.component.scss']
 })
 export class ParagraphComponent implements OnInit {
-
-	@Input() parent: LayoutComponent;
-	@Input() control: AbstractControl;
-	@Output() configChanged = new EventEmitter<ParagraphConfig>();
 	@Input() data: ParagraphConfig;
 
 	content = 'Insert text';
@@ -31,12 +23,5 @@ export class ParagraphComponent implements OnInit {
 	}
 
 	ngOnInit() {
-	}
-
-	getData() {
-		return {
-			key: this.type,
-			content: this.control.value
-		};
 	}
 }

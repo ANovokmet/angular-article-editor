@@ -10,7 +10,7 @@ import { AngularArticleEditorService } from '../angular-article-editor.service';
 	styleUrls: ['./image.component.scss', '../../styles/shared.scss']
 })
 export class ImageComponent implements OnInit {
-	selected: boolean;
+	displaySrc: boolean;
 
 	@Input() data: ImageConfig;
 
@@ -18,6 +18,9 @@ export class ImageComponent implements OnInit {
 		private articleService: AngularArticleEditorService,
 		public elementRef: ElementRef
 	) {
+		this.articleService.selected$.subscribe(data => {
+			this.displaySrc = data && data.component === this;
+		});
 	}
 
 	ngOnInit() {

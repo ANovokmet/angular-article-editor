@@ -1,1 +1,2 @@
 <img [src]="data.src" [alt]="data.alt" class="article-image">
+<input class="article-input" *ngIf="displaySrc" [(ngModel)]="data.src">

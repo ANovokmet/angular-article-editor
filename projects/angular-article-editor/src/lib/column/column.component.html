@@ -1,3 +1,7 @@
-<div class="column">
-	<aae-wrapper *ngFor="let item of data.data" [data]="item"></aae-wrapper>
+<div class="column" cdkDropList #elementList="cdkDropList" (cdkDropListDropped)="drop($event)"
+	[cdkDropListConnectedTo]="cdkDropLists" [cdkDropListData]="data.data">
+	<aae-wrapper *ngFor="let item of data.data" [data]="item" cdkDrag>
+		<ng-template #dragHandle><i class="material-icons" cdkDragHandle>drag_indicator</i></ng-template>
+		<div class="aae-drag-placeholder" *cdkDragPlaceholder></div>
+	</aae-wrapper>
 </div>

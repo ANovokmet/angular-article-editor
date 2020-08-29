@@ -1,8 +1,14 @@
 :host {
     display: block;
+    position: relative;
 }
 
 :host.selected {
-    outline: 2px solid #80a3ff;
-    outline-style: dashed;
+    outline: 2px dashed #80a3ff;
+}
+
+.drag-handle {
+    position: absolute;
+    top: 0;
+    transform: translateX(-100%);
 }

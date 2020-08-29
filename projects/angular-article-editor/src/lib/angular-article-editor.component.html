@@ -1,4 +1,4 @@
-<div class="article-container">
+<div #articleContainer class="article-container">
 	<div class="article-header">
 		<button class="btn" (click)="addParagraph()" title="Add paragraph">
 			<i class="tiny material-icons">notes</i>
@@ -10,8 +10,13 @@
 			<i class="tiny material-icons">view_column</i>
 		</button>
 	</div>
-	<div class="article-body">
-		<aae-wrapper *ngFor="let item of data" [data]="item"></aae-wrapper>
+	<div class="article-body" #articleList="cdkDropList" cdkDropList (cdkDropListDropped)="drop($event)"
+		[cdkDropListConnectedTo]="cdkDropLists" [cdkDropListData]="data">
+		<aae-wrapper [data]="item" *ngFor="let item of data" cdkDrag>
+			<ng-template #dragHandle><i class="material-icons" cdkDragHandle>drag_indicator</i></ng-template>
+			<div class="aae-drag-placeholder" *cdkDragPlaceholder></div>
+		</aae-wrapper>
 	</div>
-	<aae-tool-menu [actions]="actions" (actionExecute)="onActionExecute($event)" [ngStyle]="{left: toolMenuLeft, top: toolMenuTop}" *ngIf="toolMenuShow"></aae-tool-menu>
+	<aae-tool-menu [actions]="actions" (actionExecute)="onActionExecute($event)"
+		[ngStyle]="{left: toolMenuLeft, top: toolMenuTop}" *ngIf="toolMenuShow"></aae-tool-menu>
 </div>

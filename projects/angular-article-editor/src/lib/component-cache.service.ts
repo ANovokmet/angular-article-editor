@@ -10,7 +10,7 @@ import { ImageComponent } from './image/image.component';
  * need to be registered within the cache.
  */
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class ComponentCacheService {
 

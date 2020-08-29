@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ContenteditableModule } from '@ng-stack/contenteditable';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ContenteditableModule } from '@ng-stack/contenteditable';
 
 import { AngularArticleEditorComponent } from './angular-article-editor.component';
 import { TableComponent } from './table/table.component';
@@ -28,6 +29,7 @@ import { ImageComponent } from './image/image.component';
 		ContenteditableModule,
 		FormsModule,
 		ReactiveFormsModule,
+		DragDropModule
 	],
 	exports: [AngularArticleEditorComponent],
 	entryComponents: [

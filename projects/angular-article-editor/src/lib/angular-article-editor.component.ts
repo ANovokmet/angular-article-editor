@@ -1,5 +1,6 @@
-import { Component, OnInit, EventEmitter, Input, ChangeDetectorRef, forwardRef, Provider } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, ChangeDetectorRef, forwardRef, Provider, ViewChild, ElementRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { CdkDragDrop, moveItemInArray, CdkDropList, transferArrayItem } from '@angular/cdk/drag-drop';
 
 import { ArticleConfig, ArticleComponentConfig } from './interfaces/config';
 import { ToolMenuAction } from './tool-menu/tool-menu.component';
@@ -19,6 +20,32 @@ const CONTROL_VALUE_ACCESSOR = {
 	providers: [CONTROL_VALUE_ACCESSOR]
 })
 export class AngularArticleEditorComponent implements OnInit, ControlValueAccessor {
+	cdkDropLists: any[];
+
+	constructor(
+		private articleService: AngularArticleEditorService,
+		private changeDetectorRef: ChangeDetectorRef
+	) {
+		articleService.selected$.subscribe(data => {
+			if (data) {
+				const element = data.event.target as HTMLElement;
+				const childPos = element.getBoundingClientRect();
+				const parentPos = this.articleContainer.nativeElement.getBoundingClientRect();
+
+				this.toolMenuLeft = childPos.left - parentPos.left + 'px';
+				this.toolMenuTop = childPos.top - parentPos.top + 'px';
+
+				this.toolMenuShow = true;
+			} else {
+				this.toolMenuShow = false;
+			}
+		});
+		this.cdkDropLists = articleService.cdkLists;
+
+		this.actionMap.set('add-paragraph', (component) => this.addParagraphAt(component));
+		this.actionMap.set('add-title', (component) => this.addTitleAt(component));
+		this.actionMap.set('remove', (component) => this.remove(component));
+	}
 
 	@Input() data: ArticleConfig;
 	@Input() disabled: boolean;
@@ -37,25 +64,8 @@ export class AngularArticleEditorComponent implements OnInit, ControlValueAccess
 	onChangeCallback: () => any;
 	onTouchedCallback: () => any;
 
-	constructor(
-		private articleService: AngularArticleEditorService,
-		private changeDetectorRef: ChangeDetectorRef
-	) {
-		articleService.selected$.subscribe(data => {
-			if (data) {
-				const element = data.event.target as HTMLElement;
-				this.toolMenuLeft = element.offsetLeft + 'px';
-				this.toolMenuTop = element.offsetTop + 'px';
-				this.toolMenuShow = true;
-			} else {
-				this.toolMenuShow = false;
-			}
-		});
-
-		this.actionMap.set('add-paragraph', (component) => this.addParagraphAt(component));
-		this.actionMap.set('add-title', (component) => this.addTitleAt(component));
-		this.actionMap.set('remove', (component) => this.remove(component));
-	}
+	@ViewChild('articleList', { static: true }) articleList: CdkDropList;
+	@ViewChild('articleContainer', { static: true }) articleContainer: ElementRef;
 
 	writeValue(obj: any): void {
 		this.data = obj;
@@ -73,7 +83,19 @@ export class AngularArticleEditorComponent implements OnInit, ControlValueAccess
 		this.disabled = isDisabled;
 	}
 
+	drop(event: CdkDragDrop<any[]>) {
+		if (event.previousContainer === event.container) {
+			moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+		} else {
+			transferArrayItem(event.previousContainer.data,
+				event.container.data,
+				event.previousIndex,
+				event.currentIndex);
+		}
+	}
+
 	ngOnInit() {
+		this.articleService.addCdkList(this.articleList);
 	}
 
 	addParagraph() {

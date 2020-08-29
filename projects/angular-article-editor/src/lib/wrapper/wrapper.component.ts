@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Type, OnChanges, SimpleChanges, HostListener, HostBinding } from '@angular/core';
+import { Component, OnInit, Input, Type, OnChanges, SimpleChanges, HostListener, HostBinding, ContentChild, TemplateRef } from '@angular/core';
 
 import { ComponentCacheService } from '../component-cache.service';
 import { ArticleComponentConfig } from '../interfaces/config';
@@ -17,6 +17,7 @@ export class WrapperComponent implements OnInit, OnChanges {
 
 	@Input() data: ArticleComponentConfig;
 	@HostBinding('class.selected') selected: boolean;
+	@ContentChild('dragHandle') dragHandleTemplate: TemplateRef<any>;
 
 	constructor(private cache: ComponentCacheService, private articleService: AngularArticleEditorService) {
 		this.articleService.selectedItem$.pipe(map(i => i === this)).subscribe(s => this.selected = s);
@@ -41,7 +42,6 @@ export class WrapperComponent implements OnInit, OnChanges {
 	@HostListener('click', ['$event'])
 	onClick(event) {
 		event.stopPropagation();
-		console.log(event);
 		this.articleService.onSelected({
 			event,
 			component: this.componentInstance,
