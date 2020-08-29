@@ -3,17 +3,19 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { AngularArticleEditorModule } from 'angular-article-editor';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-    declarations: [
-        AppComponent
-    ],
-    imports: [
+	declarations: [
+		AppComponent
+	],
+	imports: [
 		BrowserModule,
-		AngularArticleEditorModule
-    ],
-    providers: [],
-    bootstrap: [AppComponent],
-    entryComponents: []
+		AngularArticleEditorModule,
+		FormsModule
+	],
+	providers: [],
+	bootstrap: [AppComponent],
+	entryComponents: []
 })
 export class AppModule { }

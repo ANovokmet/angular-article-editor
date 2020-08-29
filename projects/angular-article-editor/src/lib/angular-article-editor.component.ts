@@ -1,34 +1,45 @@
-import { Component, OnInit, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, ChangeDetectorRef, forwardRef, Provider } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ArticleConfig, ArticleComponentConfig } from './interfaces/config';
 import { ToolMenuAction } from './tool-menu/tool-menu.component';
 import { AngularArticleEditorService } from './angular-article-editor.service';
 
 type ActionCallback = (component, action?: ToolMenuAction) => void;
+const CONTROL_VALUE_ACCESSOR = {
+	provide: NG_VALUE_ACCESSOR,
+	useExisting: forwardRef(() => AngularArticleEditorComponent),
+	multi: true
+};
 
 @Component({
 	selector: 'aae-angular-article-editor',
 	templateUrl: './angular-article-editor.component.html',
-	styleUrls: ['./angular-article-editor.component.scss', '../styles/button.scss']
+	styleUrls: ['./angular-article-editor.component.scss', '../styles/button.scss'],
+	providers: [CONTROL_VALUE_ACCESSOR]
 })
-export class AngularArticleEditorComponent implements OnInit {
+export class AngularArticleEditorComponent implements OnInit, ControlValueAccessor {
 
 	@Input() data: ArticleConfig;
-	change = new EventEmitter<any>();
-	actionMap: Map<string, ActionCallback> = new Map;
-
-	toolMenuLeft: string;
-	toolMenuTop: string;
-	toolMenuShow: boolean;
-
-	actions: ToolMenuAction[] = [
+	@Input() disabled: boolean;
+	@Input() actions: ToolMenuAction[] = [
 		{ id: 'add-paragraph', title: 'Add paragraph', icon: 'notes' },
 		{ id: 'add-title', title: 'Add title', icon: 'title' },
 		{ id: 'remove', title: 'Remove', icon: 'remove' }
 	];
 
+	actionMap: Map<string, ActionCallback> = new Map();
+
+	toolMenuLeft: string;
+	toolMenuTop: string;
+	toolMenuShow: boolean;
+
+	onChangeCallback: () => any;
+	onTouchedCallback: () => any;
+
 	constructor(
-		private articleService: AngularArticleEditorService
+		private articleService: AngularArticleEditorService,
+		private changeDetectorRef: ChangeDetectorRef
 	) {
 		articleService.selected$.subscribe(data => {
 			if (data) {
@@ -44,6 +55,22 @@ export class AngularArticleEditorComponent implements OnInit {
 		this.actionMap.set('add-paragraph', (component) => this.addParagraphAt(component));
 		this.actionMap.set('add-title', (component) => this.addTitleAt(component));
 		this.actionMap.set('remove', (component) => this.remove(component));
+	}
+
+	writeValue(obj: any): void {
+		this.data = obj;
+	}
+
+	registerOnChange(fn: any): void {
+		this.onChangeCallback = () => fn(this.data);
+	}
+
+	registerOnTouched(fn: any): void {
+		this.onTouchedCallback = () => fn(this.data);
+	}
+
+	setDisabledState?(isDisabled: boolean): void {
+		this.disabled = isDisabled;
 	}
 
 	ngOnInit() {
@@ -143,6 +170,19 @@ export class AngularArticleEditorComponent implements OnInit {
 		if (result) {
 			result.parent.splice(result.index, 1);
 			this.articleService.deselect(component);
+		}
+	}
+
+	private handleDataChange(): void {
+		this.changeDetectorRef.markForCheck();
+		if (this.onChangeCallback) {
+			this.onChangeCallback();
+		}
+	}
+
+	private handleTouched() {
+		if (this.onTouchedCallback) {
+			this.onTouchedCallback();
 		}
 	}
 }

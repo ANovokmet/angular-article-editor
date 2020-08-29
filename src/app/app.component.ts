@@ -58,5 +58,9 @@ export class AppComponent {
 
     constructor() {
 
-    }
+	}
+
+	log(data) {
+		console.log(data);
+	}
 }
