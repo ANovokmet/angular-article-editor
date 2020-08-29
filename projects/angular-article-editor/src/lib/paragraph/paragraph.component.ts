@@ -3,8 +3,7 @@ import { map } from 'rxjs/operators';
 import { FormControl, AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 
-import { BaseComponent, LayoutComponent } from '../interfaces/base-component.interface';
-import { AngularArticleEditorService } from '../angular-article-editor.service';
+import { LayoutComponent } from '../interfaces/base-component.interface';
 
 interface ParagraphConfig {
 	key: string;
@@ -14,9 +13,9 @@ interface ParagraphConfig {
 @Component({
   selector: 'aae-paragraph',
   templateUrl: './paragraph.component.html',
-  styleUrls: ['./paragraph.component.scss', '../../styles/shared.scss']
+  styleUrls: ['./paragraph.component.scss']
 })
-export class ParagraphComponent implements OnInit, BaseComponent {
+export class ParagraphComponent implements OnInit {
 
 	@Input() parent: LayoutComponent;
 	@Input() control: AbstractControl;
@@ -25,19 +24,10 @@ export class ParagraphComponent implements OnInit, BaseComponent {
 
 	content = 'Insert text';
 	type = 'paragraph';
-	selected: boolean;
-	selected$ = this.articleService.selectedItem$.pipe(map(i => i === this));
 
 	onChange: Observable<string>;
 
-	constructor(
-		private articleService: AngularArticleEditorService,
-		public elementRef: ElementRef
-	) {
-	}
-
-	set value(_value: string) {
-		this.control.setValue(_value, { emitEvent: false });
+	constructor() {
 	}
 
 	ngOnInit() {
@@ -48,15 +38,5 @@ export class ParagraphComponent implements OnInit, BaseComponent {
 			key: this.type,
 			content: this.control.value
 		};
-	}
-
-	onFocus() {
-		this.articleService.select(this);
-		this.selected = true;
-	}
-
-	onBlur() {
-		// this.articleService.deselect(this);
-		this.selected = false;
 	}
 }

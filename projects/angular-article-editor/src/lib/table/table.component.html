@@ -1,4 +1,3 @@
-<div class="table-body item" [ngClass]="{'selected': selected}">
-	<aae-column *ngFor="let column of data.data" class="table-column" (configChanged)="onComponentChanged()"
-		[data]="column"></aae-column>
+<div class="table-body">
+	<aae-wrapper *ngFor="let item of data.data" class="table-column" [data]="item"></aae-wrapper>
 </div>

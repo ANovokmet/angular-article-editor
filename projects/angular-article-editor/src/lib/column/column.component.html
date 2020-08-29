@@ -1,3 +1,3 @@
-<div class="column item" [ngClass]="{'selected': (selected$ | async)}" (click)="onFocus(); $event.stopPropagation()">
+<div class="column">
 	<aae-wrapper *ngFor="let item of data.data" [data]="item"></aae-wrapper>
 </div>

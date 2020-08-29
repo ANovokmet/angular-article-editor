@@ -1,11 +1,5 @@
-<div class="tool-menu-container" *ngIf="show">
-	<button class="btn" (click)="addParagraph()" title="Add paragraph">
-		<i class="tiny material-icons">notes</i>
-	</button>
-	<button class="btn" (click)="addTitle()" title="Add title">
-		<i class="tiny material-icons">title</i>
-	</button>
-	<button class="btn" (click)="remove()" title="Remove">
-		<i class="tiny material-icons">remove</i>
+<div class="tool-menu-container">
+	<button class="btn" *ngFor="let action of actions" (click)="onActionExecute(action)" title="{{action.title}}">
+		<i class="tiny material-icons">{{action.icon}}</i>
 	</button>
 </div>

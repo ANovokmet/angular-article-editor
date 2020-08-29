@@ -18,16 +18,8 @@ export class ImageComponent implements OnInit {
 		private articleService: AngularArticleEditorService,
 		public elementRef: ElementRef
 	) {
-		this.articleService.selectedItem$.pipe(map(i => i === this)).subscribe(s => {
-			this.selected = s;
-		});
 	}
 
 	ngOnInit() {
-	}
-
-	onFocus() {
-		this.articleService.select(this);
-		this.selected = true;
 	}
 }

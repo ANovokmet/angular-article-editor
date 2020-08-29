@@ -1,6 +1,6 @@
 import {
 	Directive, OnChanges, OnDestroy, Injector, Type, NgModuleFactory,
-	ViewContainerRef, NgModuleRef, ComponentRef, Input, SimpleChanges, ComponentFactoryResolver
+	ViewContainerRef, NgModuleRef, ComponentRef, Input, SimpleChanges, ComponentFactoryResolver, Output, EventEmitter
 } from '@angular/core';
 
 /**
@@ -16,6 +16,8 @@ export class ComponentOutletDirective implements OnChanges, OnDestroy {
 	@Input() ngComponentOutletNgModuleFactory: NgModuleFactory<any>;
 
 	@Input() data: any;
+
+	@Output() componentCreated = new EventEmitter<ComponentRef<any>>();
 
 	private _componentRef: ComponentRef<any> = null;
 	private _moduleRef: NgModuleRef<any> = null;
@@ -49,6 +51,8 @@ export class ComponentOutletDirective implements OnChanges, OnDestroy {
 
 			this._componentRef = this._viewContainerRef.createComponent(
 				componentFactory, this._viewContainerRef.length, injector, this.ngComponentOutletContent);
+
+			this.componentCreated.emit(this._componentRef);
 		}
 
 		if (this._componentRef) {

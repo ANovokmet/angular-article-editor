@@ -1,4 +1,4 @@
 
-<ng-container aaeComponentOutlet [ngComponentOutlet]="componentType" [data]="data">
+<ng-container aaeComponentOutlet [ngComponentOutlet]="componentType" [data]="data" (componentCreated)="onComponentCreated($event)">
 
 </ng-container>
