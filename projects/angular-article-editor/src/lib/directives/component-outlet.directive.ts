@@ -4,13 +4,13 @@ import {
 } from '@angular/core';
 
 /**
- * Works just like ngComponentOutlet only with an aditional data input.
+ * Works just like ngComponentOutlet with an aditional data input.
  */
 @Directive({
 	selector: '[aaeComponentOutlet]'
 })
 export class ComponentOutletDirective implements OnChanges, OnDestroy {
-	@Input() ngComponentOutlet: Type<any>;
+	@Input() aaeComponentOutlet: Type<any>;
 	@Input() ngComponentOutletInjector: Injector;
 	@Input() ngComponentOutletContent: any[][];
 	@Input() ngComponentOutletNgModuleFactory: NgModuleFactory<any>;
@@ -31,7 +31,7 @@ export class ComponentOutletDirective implements OnChanges, OnDestroy {
 		this._viewContainerRef.clear();
 		this._componentRef = null;
 
-		if (this.ngComponentOutlet) {
+		if (this.aaeComponentOutlet) {
 			let injector = this.ngComponentOutletInjector || this._viewContainerRef.parentInjector;
 
 			if ((changes as any).ngComponentOutletNgModuleFactory) {
@@ -47,11 +47,10 @@ export class ComponentOutletDirective implements OnChanges, OnDestroy {
 			}
 
 			const componentFactory =
-				injector.get(ComponentFactoryResolver).resolveComponentFactory(this.ngComponentOutlet);
+				injector.get(ComponentFactoryResolver).resolveComponentFactory(this.aaeComponentOutlet);
 
 			this._componentRef = this._viewContainerRef.createComponent(
 				componentFactory, this._viewContainerRef.length, injector, this.ngComponentOutletContent);
-
 			this.componentCreated.emit(this._componentRef);
 		}
 

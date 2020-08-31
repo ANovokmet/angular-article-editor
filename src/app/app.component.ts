@@ -9,15 +9,15 @@ export class AppComponent {
 	title = 'sample-app';
 
 	article = [
-		{
-			key: 'title',
-			data: 'This is a title'
-		},
-		{
-			key: 'paragraph',
-			data: `A long paragraph. A long paragraph. A long paragraph. A long paragraph. A
-			long paragraph. A long paragraph. A long paragraph. A long paragraph.`
-		},
+		// {
+		// 	key: 'title',
+		// 	data: 'This is a title'
+		// },
+		// {
+		// 	key: 'paragraph',
+		// 	data: `A long paragraph. A long paragraph. A long paragraph. A long paragraph. A
+		// 	long paragraph. A long paragraph. A long paragraph. A long paragraph.`
+		// },
 		{
 			key: 'table',
 			data: [

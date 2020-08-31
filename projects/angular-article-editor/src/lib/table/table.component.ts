@@ -18,8 +18,4 @@ export class TableComponent implements OnInit {
 	ngOnInit() {
 	}
 
-	onComponentChanged(a) {
-		console.log('a', a);
-	}
-
 }

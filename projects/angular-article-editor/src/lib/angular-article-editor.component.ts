@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Input, ChangeDetectorRef, forwardRef, Provider, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, ChangeDetectorRef, forwardRef, Provider, ViewChild, ElementRef, Type } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray, CdkDropList, transferArrayItem } from '@angular/cdk/drag-drop';
 
@@ -6,7 +6,12 @@ import { ArticleConfig, ArticleComponentConfig } from './interfaces/config';
 import { ToolMenuAction } from './tool-menu/tool-menu.component';
 import { AngularArticleEditorService } from './angular-article-editor.service';
 
-type ActionCallback = (component, action?: ToolMenuAction) => void;
+interface ActionCallbackEventData {
+	action?: ToolMenuAction;
+	data?: any;
+	component?: any;
+}
+type ActionCallback = (event: ActionCallbackEventData) => void;
 const CONTROL_VALUE_ACCESSOR = {
 	provide: NG_VALUE_ACCESSOR,
 	useExisting: forwardRef(() => AngularArticleEditorComponent),
@@ -35,6 +40,13 @@ export class AngularArticleEditorComponent implements OnInit, ControlValueAccess
 				this.toolMenuLeft = childPos.left - parentPos.left + 'px';
 				this.toolMenuTop = childPos.top - parentPos.top + 'px';
 
+				const config = this.componentConfig.get(data.data.key);
+				if (config) {
+					this.actions = config.actions;
+				} else {
+					this.actions = this.defaultActions;
+				}
+
 				this.toolMenuShow = true;
 			} else {
 				this.toolMenuShow = false;
@@ -42,20 +54,63 @@ export class AngularArticleEditorComponent implements OnInit, ControlValueAccess
 		});
 		this.cdkDropLists = articleService.cdkLists;
 
-		this.actionMap.set('add-paragraph', (component) => this.addParagraphAt(component));
-		this.actionMap.set('add-title', (component) => this.addTitleAt(component));
-		this.actionMap.set('remove', (component) => this.remove(component));
+		this.actionMap.set('add-paragraph', ({ component }) => this.addParagraphAt(component));
+		this.actionMap.set('add-title', ({ component }) => this.addTitleAt(component));
+		this.actionMap.set('remove', ({ component }) => this.remove(component));
+		this.actionMap.set('add-paragraph-inside', ({ data }) => {
+			const content: any[] = data.data;
+			content.push({
+				key: 'paragraph',
+				data: 'Insert text'
+			});
+		});
+		this.actionMap.set('add-title-inside', ({ data }) => {
+			const content: any[] = data.data;
+			content.push({
+				key: 'title',
+				data: 'Insert text'
+			});
+		});
+		this.actionMap.set('add-column', ({ data }) => {
+			const columns: any[] = data.data;
+			columns.push({ key: 'column', data: [] });
+		});
+		this.actionMap.set('remove-column', ({ data }) => {
+			const columns: any[] = data.data;
+			columns.splice(-1, 1);
+		});
+
+		// this.register('title', ParagraphComponent);
+		// this.register('paragraph', ParagraphComponent);
+		// this.register('column', ColumnComponent);
+		// this.register('table', TableComponent);
+		// this.register('image', ImageComponent);
+
+		this.componentConfig.set('table', {
+			actions: [
+				{ id: 'add-column', title: 'Add column', icon: 'add_circle_outline' },
+				{ id: 'remove-column', title: 'Remove column', icon: 'remove_circle_outline' }
+			]
+		});
+		this.componentConfig.set('column', {
+			actions: [
+				{ id: 'add-paragraph-inside', title: 'Add paragraph', icon: 'notes' },
+				{ id: 'add-title-inside', title: 'Add title', icon: 'title' },
+			]
+		});
 	}
 
 	@Input() data: ArticleConfig;
 	@Input() disabled: boolean;
-	@Input() actions: ToolMenuAction[] = [
+	@Input() defaultActions: ToolMenuAction[] = [
 		{ id: 'add-paragraph', title: 'Add paragraph', icon: 'notes' },
 		{ id: 'add-title', title: 'Add title', icon: 'title' },
 		{ id: 'remove', title: 'Remove', icon: 'remove' }
 	];
+	@Input() actions: ToolMenuAction[] = this.defaultActions;
 
 	actionMap: Map<string, ActionCallback> = new Map();
+	componentConfig: Map<any, any> = new Map();
 
 	toolMenuLeft: string;
 	toolMenuTop: string;
@@ -129,10 +184,14 @@ export class AngularArticleEditorComponent implements OnInit, ControlValueAccess
 	}
 
 	onActionExecute(action: ToolMenuAction) {
-		const { component } = this.articleService.getSelectedData();
+		const { component, data } = this.articleService.getSelectedData();
 		const callback = this.actionMap.get(action.id);
 		if (callback) {
-			callback(component, action);
+			callback({
+				action,
+				data,
+				component
+			});
 		} else {
 			throw Error(`No callback registered for action ${action.id}`);
 		}

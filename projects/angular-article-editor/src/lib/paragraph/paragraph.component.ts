@@ -12,7 +12,7 @@ interface ParagraphConfig {
   styleUrls: ['./paragraph.component.scss']
 })
 export class ParagraphComponent implements OnInit {
-	@Input() data: ParagraphConfig;
+	@Input() data: ParagraphConfig = { key: 'paragraph', data: '' };
 
 	content = 'Insert text';
 	type = 'paragraph';

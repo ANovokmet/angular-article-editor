@@ -1,5 +1,6 @@
 <div class="container">
 	<h1>Angular article editor</h1>
 	<aae-angular-article-editor [(ngModel)]="article" (ngModelChange)="log($event)"></aae-angular-article-editor>
-	<pre>{{article | json}}</pre>
+	<h3>ngModel:</h3>
+	<pre class="code">{{article | json}}</pre>
 </div>

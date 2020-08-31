@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { BaseComponent } from './interfaces/base-component.interface';
 import { BehaviorSubject } from 'rxjs';
+
 import { WrapperComponent } from './wrapper/wrapper.component';
 
 export interface ComponentSelectedData {
 	event: MouseEvent;
 	component: any;
 	container: WrapperComponent;
+	data: { key: string };
 }
 
 @Injectable({

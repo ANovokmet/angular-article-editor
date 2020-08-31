@@ -45,7 +45,8 @@ export class WrapperComponent implements OnInit, OnChanges {
 		this.articleService.onSelected({
 			event,
 			component: this.componentInstance,
-			container: this
+			container: this,
+			data: this.data
 		});
 	}
 
